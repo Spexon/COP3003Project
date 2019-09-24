@@ -12,6 +12,9 @@ import java.sql.SQLException;
 public class Main extends Application {
 
     @Override
+    /**
+     * @brief titles a 300 by 275 box with Hello World, and adds the attributes from sample.fxml
+     */
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
@@ -19,7 +22,11 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * @brief inserts values into the columns uid and name
+     * @param args
+     * @throws SQLException
+     */
     public static void main(String[] args) throws SQLException {
         launch(args);
 
@@ -40,8 +47,5 @@ public class Main extends Application {
 
         // And close our connection at end
         pm.closeCon();
-
-
     }
-
 }
