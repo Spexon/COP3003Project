@@ -9,8 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Main extends Application {
 
@@ -18,7 +17,7 @@ public class Main extends Application {
     /**
      * @brief titles a 300 by 275 box with Hello World, and adds the attributes from sample.fxml
      */
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
@@ -26,29 +25,43 @@ public class Main extends Application {
     }
 
     /**
-     * @brief inserts values into the columns uid and name
      * @param args
      * @throws SQLException
+     * @brief Connects to the database, selects values into the columns uin, fname and lname, and closes the connection
      */
     public static void main(String[] args) throws SQLException {
         launch(args);
 
-        ProductManager pm = new ProductManager();
-        pm.selectAll();
+        final String JDBC_DRIVER = "org.h2.Driver";
+        final String DB_URL = "jdbc:h2:C:/Users/Windows/OneDrive - Florida Gulf Coast University/COP 3003/COP3003Project/res";
+        //  Database credentials
+        final String USER = "";
+        final String PASS = "";
+        Connection conn = null;
+        Statement stmt = null;
 
-        // Finally let's insert some data
-        // Will use stringBuilder or similar in video to build/map this
-        // Main point for both: USE PLACEHOLDERS
-        String insertQuery = "INSERT INTO employee " +
-                "(uid, name)" +
-                " VALUES (?, ?)";
-        String[] itemp = {"12", "Andrew"};
+        try {
+            // STEP 1: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+            //STEP 2: Open a connection
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //STEP 3: Execute a query
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM EMPLOYEE";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                System.out.printf("Uin: %d%n", rs.getInt("uin"));
+                System.out.printf("First Name: %s%n", rs.getString("fname"));
+                System.out.printf("Last Name: %s%n", rs.getString("lname"));
+            }
+            // STEP 4: Clean-up environment
+            stmt.close();
+            conn.close();
 
-        pm.insertProd(insertQuery, itemp);
-        pm.selectAll();
-
-
-        // And close our connection at end
-        pm.closeCon();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
