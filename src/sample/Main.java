@@ -37,14 +37,16 @@ public class Main extends Application {
         //  Database credentials
         final String USER = "";
         final String PASS = "";
-        Connection conn = null;
-        Statement stmt = null;
+        Connection conn;
+        Statement stmt;
 
         try {
             // STEP 1: Register JDBC driver
             Class.forName(JDBC_DRIVER);
+
             //STEP 2: Open a connection
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
             //STEP 3: Execute a query
             stmt = conn.createStatement();
             String sql = "SELECT * FROM EMPLOYEE";
@@ -54,6 +56,7 @@ public class Main extends Application {
                 System.out.printf("First Name: %s%n", rs.getString("fname"));
                 System.out.printf("Last Name: %s%n", rs.getString("lname"));
             }
+
             // STEP 4: Clean-up environment
             stmt.close();
             conn.close();
@@ -63,5 +66,8 @@ public class Main extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        ProductionLog pl = new ProductionLog();
+        pl.newItem();
     }
 }
