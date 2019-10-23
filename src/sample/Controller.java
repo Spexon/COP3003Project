@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable, Item {
 
+
     enum ItemType {
         AU,  //Audio
         VI,  //Visual
@@ -37,6 +38,12 @@ public class Controller implements Initializable, Item {
     private void handleButtonAction(ActionEvent event) {
         // Button was clicked, do something...
         System.out.println(tempVal);
+        if (tempVal.equals("Audio") || tempVal.equals("Visual")) {
+            btn.setLayoutX(95);
+        }
+        else {
+            btn.setLayoutX(75);
+        }
         btn.setText(tempVal + " Submitted\n");
     }
 

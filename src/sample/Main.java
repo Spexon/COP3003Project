@@ -95,8 +95,6 @@ public class Main extends Application {
                 System.out.println("Please select an item in the given range and try again");
         }
 
-
-        System.out.println(ap.returnToString("", "", ""));
         ap.audioplayer();
         input.close();
     }
