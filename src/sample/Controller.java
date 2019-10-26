@@ -1,3 +1,6 @@
+/**
+ * @Author Vladimir Hardy
+ */
 package sample;
 
 import javafx.event.ActionEvent;
@@ -5,12 +8,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable, Item {
 
+    @FXML
+    private ComboBox<?> items;
+    public TextField manufact;
+    public TextField prod;
+    public Button btn;
+    private String type;
 
     enum ItemType {
         AU,  //Audio
@@ -19,41 +29,44 @@ public class Controller implements Initializable, Item {
         VM   //Visual Mobile
     }
 
-    public Button btn;
+    /**
+     * @brief gets the value the user chooses and saves the value
+     */
     @FXML
-    private ComboBox<?> items;
-    private String tempVal;
-
-    private void handleComboBox(ActionEvent event) {
+    private void handleComboBox() {
         ItemType audio = ItemType.AU;
         ItemType visual = ItemType.VI;
         ItemType audioMobile = ItemType.AM;
         ItemType visualMobile = ItemType.VM;
         items.valueProperty().addListener((obs, oldVal, newVal) ->   {
-            tempVal = newVal.toString();
+            type = newVal.toString();
         });
-
     }
 
+    /**
+     * @brief calls createNewItem and passes the values the user selected from the GUI
+     * @param event
+     */
     private void handleButtonAction(ActionEvent event) {
         // Button was clicked, do something...
-        System.out.println(tempVal);
-        if (tempVal.equals("Audio") || tempVal.equals("Visual")) {
-            btn.setLayoutX(95);
-        }
-        else {
-            btn.setLayoutX(75);
-        }
-        btn.setText(tempVal + " Submitted\n");
+        Production pd = new Production();
+        pd.createNewItem(prod.getText(), manufact.getText(), type);
+        btn.setText("Submitted\n");
     }
 
-
+    /**
+     * @brief when the button action gets called, send the program to the specified method
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        items.setOnAction(this::handleComboBox);
         btn.setOnAction(this::handleButtonAction);
     }
 
+    /**
+     * Implemented getters and setters
+     */
     @Override
     public int getId() {
         return 0;

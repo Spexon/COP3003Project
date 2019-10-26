@@ -1,6 +1,6 @@
 /**
  * @Author Vladimir Hardy
- * @TODO Create a database Table for Production, display available products to record
+ * @TODO Display available products to record
  */
 package sample;
 
@@ -10,6 +10,10 @@ import java.time.LocalDate;
 
 public class Production implements Item {
 
+    /**
+     * @brief Allows the user to select an item to produce however many times they desire (will change to GUI later)
+     * @param input scanner that is brought from Main
+     */
     public void produce(Scanner input) {
 
         String[] sampleItems = {"Apple, iPod, AU", "Windows, Macbook, VI"}; //Pull from DB
@@ -69,42 +73,23 @@ public class Production implements Item {
         }
     }
 
-    public void createNewItem(Scanner input) {
+    /**
+     * @brief creates a new item with the information passed and saves to a database table called PRODUCTION
+     * @param prodName Name of the product
+     * @param manufact Manufacturer's name
+     * @param type Product type (Audio, Visual, Audio Mobile, Visual Mobile)
+     */
+    public void createNewItem(String prodName, String manufact, String type) {
 
-
-        System.out.println("Type the manufacturer of the product:");
-        input.nextLine();
-        String manufacturer = input.nextLine();
-        System.out.println("Now type the name of the product:");
-        String name = input.nextLine();
-        System.out.println("Select an item type: ");
-        System.out.println("1. Audio \n2. Visual \n3. Audio Mobile \n4. Visual Mobile");
-        String type;
-        int choice = input.nextInt();
-        switch(choice) {
-            case 1:
-                type = "Audio";
-                break;
-            case 2:
-                type = "Visual";
-                break;
-            case 3:
-                type = "Audio Mobile";
-                break;
-            case 4:
-                type = "Visual Mobile";
-                break;
-            default:
-                System.out.println("Please select the choice in the given range");
-        }
         try {
-            final String JDBC_DRIVER = "org.h2.Driver"; //Only works on local computer
+            final String JDBC_DRIVER = "org.h2.Driver";
             final String DB_URL = "jdbc:h2:C:/Users/Windows/OneDrive - Florida Gulf Coast University/COP 3003/COP3003Project/res";
             //  Database credentials
             final String USER = "";
             final String PASS = "";
             Connection conn;
-            PreparedStatement stmt;
+            PreparedStatement  pstmt; //Use prepared statement to allow variables to work in insert statements
+            Statement stmt;
 
             // STEP 1: Register JDBC driver
             Class.forName(JDBC_DRIVER);
@@ -113,14 +98,33 @@ public class Production implements Item {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             //STEP 3: Execute a query
-            stmt = conn.prepareStatement("INSERT INTO PRODUCTION VALUES (?,?,?,?)");
+            String SQL = "INSERT INTO PRODUCTION VALUES (?,?,?,?)";
+            String SQL2 = "SELECT id FROM PRODUCTION ORDER BY ID DESC LIMIT 1"; //Gets the last id
+            String SQL3 = "DELETE * FROM PRODUCTION WHERE TYPE = null";
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(SQL2);
+            int id = 1;
+            while(rs.next()) {
+                id = rs.getInt("id") + 1; //Increments the last id by 1
+            }
 
-            stmt.setInt(1,3);
-            //stmt.setString(2, "iPod", "Apple", "AU");  //Insert Into doesnt work cant understand why <---
-            int rs1 = stmt.executeUpdate();
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setInt(1, id);
+            pstmt.setString(2,prodName);
+            pstmt.setString(3,manufact);
+            pstmt.setString(4,type);
 
+            pstmt.executeUpdate();
+            /* if(!type.equals("null")) { // <-- this is the error
+                System.out.println("Data successfully inserted");
+            }
+            else {
+                System.out.println("Error occurred while inserting data");
+                //stmt.executeQuery(SQL3);
+            }*/
 
             // STEP 4: Clean-up environment
+            pstmt.close();
             stmt.close();
             conn.close();
 
@@ -131,6 +135,9 @@ public class Production implements Item {
         }
     }
 
+    /**
+     * Implemented getters and setters
+     */
     @Override
     public int getId() {
         return 0;
