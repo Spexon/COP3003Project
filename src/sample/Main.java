@@ -16,7 +16,7 @@ public class Main extends Application {
 
 
 
-    @Override
+    @Override //@ means annotate
     /**
      * @brief titles a 350 by 318 box with Production Line, and adds the attributes from sample.fxml
      */

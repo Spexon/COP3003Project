@@ -38,7 +38,7 @@ public class Controller implements Initializable, Item {
         ItemType visual = ItemType.VI;
         ItemType audioMobile = ItemType.AM;
         ItemType visualMobile = ItemType.VM;
-        items.valueProperty().addListener((obs, oldVal, newVal) ->   {
+        items.valueProperty().addListener((obs, oldVal, newVal) ->   { // -> Functional: no name and no return type (but can still return something)
             type = newVal.toString();
         });
     }
