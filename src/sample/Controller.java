@@ -3,17 +3,26 @@
  */
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable, Item {
+
+
+    public TableView productsTable;
+    public TableColumn<DisplayTable, Integer> displayID;
+    public TableColumn<DisplayTable, String> displayManufacturer;
+    public TableColumn<DisplayTable, String> displayProdName;
+    public TableColumn<DisplayTable, String> displayType;
+
 
     @FXML
     private ComboBox<?> items;
@@ -38,7 +47,7 @@ public class Controller implements Initializable, Item {
         ItemType visual = ItemType.VI;
         ItemType audioMobile = ItemType.AM;
         ItemType visualMobile = ItemType.VM;
-        items.valueProperty().addListener((obs, oldVal, newVal) ->   { // -> Functional: no name and no return type (but can still return something)
+        items.valueProperty().addListener((obs, oldVal, newVal) ->   {
             type = newVal.toString();
         });
     }
@@ -61,7 +70,29 @@ public class Controller implements Initializable, Item {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        final ObservableList<DisplayTable> data = FXCollections.observableArrayList(
+                new DisplayTable("sample1", "MANUFACTURER!","VM",1)
+
+        );
         btn.setOnAction(this::handleButtonAction);
+        productsTable.getColumns().clear();
+        displayID.setCellValueFactory(
+                new PropertyValueFactory<>("Id")
+        );
+
+        displayManufacturer.setCellValueFactory(
+                new PropertyValueFactory<>("manufacturer")
+        );
+        displayProdName.setCellValueFactory(
+                new PropertyValueFactory<>("Name")
+        );
+        displayType.setCellValueFactory(
+                new PropertyValueFactory<>("Type")
+        );
+
+        productsTable.setItems(data);
+        System.out.println(displayManufacturer);
+        productsTable.getColumns().addAll(displayID, displayManufacturer, displayProdName, displayType);
     }
 
     /**

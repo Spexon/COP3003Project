@@ -4,11 +4,20 @@
  */
 package sample;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 import java.sql.*;
 import java.util.Scanner;
 import java.time.LocalDate;
 
 public class Production implements Item {
+
+    /**
+     * @param name
+     * @brief constructor that sets name equal to what comes in
+     */
+
 
     /**
      * @brief Allows the user to select an item to produce however many times they desire (will change to GUI later)
