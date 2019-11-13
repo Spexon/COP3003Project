@@ -1,54 +1,69 @@
+/**
+ * @Author Vladimir Hardy
+ */
 package sample;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-//s
-public class DisplayTable extends Product {
 
-    private final SimpleStringProperty productName;
-    private final SimpleStringProperty manufact;
-    private final SimpleStringProperty type;
-    private final SimpleIntegerProperty id;
+import java.util.ArrayList;
 
-    public DisplayTable(String name, String manufact, String type, int id) {
-        super(name);
-        this.productName = new SimpleStringProperty(getName());
-        this.manufact = new SimpleStringProperty(manufact);
-        this.type = new SimpleStringProperty(type);
-        this.id = new SimpleIntegerProperty(id);
+public class DisplayTable {
 
+    private String productName;
+    private String manufact;
+    private String type;
+    private int id;
+
+    public DisplayTable(ArrayList<String> data) {
+
+        for(int i = 0; i<data.size(); i++) {
+            int j = i+1;
+            this.id = Integer.parseInt(data.get(0));
+            this.manufact = data.get(1);
+            this.productName = data.get(2);
+            this.type = data.get(3);
         }
-    public String getProductName() {
-        return productName.get();
+    }
+
+    /*public DisplayTable(int id, String manufact, String name, String type) {
+
+            this.productName = name;
+            this.manufact = manufact;
+            this.type = type;
+            this.id = id;
+        }*/
+
+            public String getProductName() {
+        return productName;
     }
 
     public void setProductName(String name) {
-        productName.set(name);
+        this.productName = name;
     }
 
     public String getManufact() {
-        return manufact.get();
+        return manufact;
     }
 
     public void setManufact(String manufact) {
-        this.manufact.set(manufact);
+        this.manufact = manufact;
     }
 
     public String getType() {
-        return type.get();
+        return type;
     }
 
     public void setType(String type) {
-        this.type.set(type);
+        this.type = type;
     }
 
-    @Override
     public int getId() {
-        return id.get();
+        return id;
     }
 
     public void setId(int id) {
-        this.id.set(id);
+        this.id = id;
     }
 
 }

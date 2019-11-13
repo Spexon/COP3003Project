@@ -34,15 +34,7 @@ public class Main extends Application {
      * @brief driver class that calls all other classes and launches the GUI
      */
     public static void main(String[] args) throws SQLException {
-
         launch(args);
-
-        Scanner input = new Scanner(System.in);
-        AudioPlayer ap = new AudioPlayer("", "", "");
-        Production pd = new Production();
-        pd.produce(input); // <-- this will be displayed in a GUI later
-        ap.audioPlayer();
-        input.close();
     }
 }
 

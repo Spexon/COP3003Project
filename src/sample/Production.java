@@ -21,62 +21,30 @@ public class Production implements Item {
 
     /**
      * @brief Allows the user to select an item to produce however many times they desire (will change to GUI later)
-     * @param input scanner that is brought from Main
      */
-    public void produce(Scanner input) {
+    public void produce(String itemsToProduce,int numItemsToProduce) {
 
-        String[] sampleItems = {"Apple, iPod, AU", "Windows, Macbook, VI"}; //Pull from DB
-        for (int i = 0; i<sampleItems.length; i++) {
-            System.out.println(i + 1 + ". " + sampleItems[i]);
-        }
-        System.out.println("Select an item to produce: ");
-        int itemChoice = input.nextInt();
-        //Produce that item x number of times and save to a Database
-        System.out.println("Enter the amount of items that have been produced: ");
-        int numItemsToProduce = input.nextInt();
-
-        LocalDate date = LocalDate.now();
-        String manufacturedOn = date.toString();
-        System.out.println(manufacturedOn);
-        String productionRun;
-        for(int i = 1; i<=numItemsToProduce; i++) {
-            productionRun = i + ". " + sampleItems[itemChoice-1];
-            System.out.println(productionRun); //Save to DB
-        }
-        final String JDBC_DRIVER = "org.h2.Driver"; //Only works on local computer
         final String DB_URL = "jdbc:h2:C:/Users/Windows/OneDrive - Florida Gulf Coast University/COP 3003/COP3003Project/res";
         //  Database credentials
         final String USER = "";
         final String PASS = "";
+
+        DBConnection db = new DBConnection();
         Connection conn;
-        Statement stmt;
+        PreparedStatement pstmt;
 
         try {
-            // STEP 1: Register JDBC driver
-            Class.forName(JDBC_DRIVER);
+            conn =  DriverManager.getConnection(DB_URL, USER, PASS);
 
-            //STEP 2: Open a connection
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            //STEP 3: Execute a query
-            stmt = conn.createStatement();
-            //String insert = "INSERT INTO PRODUCTION VALUES (1,'iPod','Apple','AU')";
-            //ResultSet rs1 = stmt.executeQuery(insert);
-
-            String select = "SELECT * FROM PRODUCTION";
-            ResultSet rs2 = stmt.executeQuery(select);
-
-            while (rs2.next()) {
-                System.out.printf("%d. %s, %s, %s\n", rs2.getInt("id"),
-                        rs2.getString("manufacturer"), rs2.getString("name"), rs2.getString("type"));
+            String SQL = "INSERT INTO PRODUCTIONRECORD VALUES (?,?,?,?)";
+            pstmt = conn.prepareStatement(SQL);
+            for(int i = 0; i<numItemsToProduce;i++) {
+                pstmt.setString(1, itemsToProduce);
             }
 
-            // STEP 4: Clean-up environment
-            stmt.close();
-            conn.close();
+            pstmt.close();
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,9 +64,11 @@ public class Production implements Item {
             //  Database credentials
             final String USER = "";
             final String PASS = "";
+
             Connection conn;
-            PreparedStatement  pstmt; //Use prepared statement to allow variables to work in insert statements
-            Statement stmt;
+            PreparedStatement pstmt; //Use prepared statement to allow variables to work in insert statements
+            DBConnection db = new DBConnection();
+            Statement stmt = db.stmt();
 
             // STEP 1: Register JDBC driver
             Class.forName(JDBC_DRIVER);
@@ -110,7 +80,6 @@ public class Production implements Item {
             String SQL = "INSERT INTO PRODUCTION VALUES (?,?,?,?)";
             String SQL2 = "SELECT id FROM PRODUCTION ORDER BY ID DESC LIMIT 1"; //Gets the last id
             String SQL3 = "DELETE * FROM PRODUCTION WHERE TYPE = null";
-            stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(SQL2);
             int id = 1;
             while(rs.next()) {
@@ -137,9 +106,7 @@ public class Production implements Item {
             stmt.close();
             conn.close();
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
