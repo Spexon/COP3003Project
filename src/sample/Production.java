@@ -24,7 +24,7 @@ public class Production implements Item {
      */
     public void produce(String itemsToProduce,int numItemsToProduce) {
 
-        final String DB_URL = "jdbc:h2:C:/Users/Windows/OneDrive - Florida Gulf Coast University/COP 3003/COP3003Project/res";
+        final String DB_URL = "jdbc:h2:C:/Users/Windows/OneDrive - Florida Gulf Coast University/COP 3003/COP3003Project/res/ProductionLog";
         //  Database credentials
         final String USER = "";
         final String PASS = "";
@@ -60,7 +60,7 @@ public class Production implements Item {
 
         try {
             final String JDBC_DRIVER = "org.h2.Driver";
-            final String DB_URL = "jdbc:h2:C:/Users/Windows/OneDrive - Florida Gulf Coast University/COP 3003/COP3003Project/res";
+            final String DB_URL = "jdbc:h2:C:/Users/Windows/OneDrive - Florida Gulf Coast University/COP 3003/COP3003Project/res/ProductionLog";
             //  Database credentials
             final String USER = "";
             final String PASS = "";

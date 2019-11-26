@@ -22,10 +22,10 @@ public class Controller implements Initializable, Item {
 
 
     public TableView productsTable;
-    public TableColumn<?, ?> displayID;
-    public TableColumn<?, ?> displayManufacturer;
-    public TableColumn<?, ?> displayProdName;
-    public TableColumn<?, ?> displayType;
+    public TableColumn<DisplayTable, Integer> displayID;
+    public TableColumn<DisplayTable, String> displayManufacturer;
+    public TableColumn<DisplayTable, String> displayProdName;
+    public TableColumn<DisplayTable, String> displayType;
     @FXML
     private ComboBox<?> items;
     public ComboBox itemsInDisplay;
@@ -36,6 +36,7 @@ public class Controller implements Initializable, Item {
     public Button btn1;
     private String type;
     private String itemsToProduce;
+    private static ObservableList<DisplayTable> data;
 
     enum ItemType {
         AU,  //Audio
@@ -49,6 +50,7 @@ public class Controller implements Initializable, Item {
      */
     @FXML
     private void handleComboBox() {
+
         ItemType audio = ItemType.AU;
         ItemType visual = ItemType.VI;
         ItemType audioMobile = ItemType.AM;
@@ -56,10 +58,32 @@ public class Controller implements Initializable, Item {
         items.valueProperty().addListener((obs, oldVal, newVal) ->   {
             type = newVal.toString();
         });
+        /*switch(type) {
+            case "Audio":
+                type = audio.toString();
+                break;
+            case "Visual":
+                type = visual.toString();
+                break;
+            case "Audio Mobile":
+                type = audioMobile.toString();
+                break;
+            case "Visual Mobile":
+                type = visualMobile.toString();
+                break;
+            default:
+                System.out.println("Something went wrong in ItemType Combobox");
+
+        }*/
     }
 
+    /**
+     * @brief gets the value that the user logs and saves to itemsToProduce
+     */
     @FXML
     private void handleComboBox2() {
+
+        itemsInDisplay.setItems(data);
         itemsInDisplay.valueProperty().addListener((obs, oldVal, newVal) -> {
             itemsToProduce = newVal.toString();
         });
@@ -73,14 +97,14 @@ public class Controller implements Initializable, Item {
         // Button was clicked, do something...
         Production pd = new Production();
         pd.createNewItem(prod.getText(), manufact.getText(), type);
-        btn.setText("Submitted\n");
+        btn.setText("Submitted");
     }
 
     private void handleButtonAction1(ActionEvent event) {
         // Button was clicked, do something...
         Production pd = new Production();
         pd.produce(itemsToProduce, Integer.parseInt(numItemsToProduce.getText()));
-        btn.setText("Submitted\n");
+        btn.setText("Submitted");
     }
 
     /**
@@ -93,46 +117,39 @@ public class Controller implements Initializable, Item {
 
         btn.setOnAction(this::handleButtonAction);
         btn1.setOnAction(this::handleButtonAction1);
-        final ObservableList<DisplayTable> data = populateList();
-
-        productsTable.getColumns().clear();
-        displayID.setCellValueFactory(new PropertyValueFactory("id")); //THIS HAS TO MATCH DISPLAYTABLE VARIABLES !
+        data = FXCollections.observableArrayList();
+        displayID.setCellValueFactory(new PropertyValueFactory("id")); //THIS HAS TO MATCH DISPLAYTABLE FIELD VARIABLES!
         displayManufacturer.setCellValueFactory(new PropertyValueFactory("manufact"));
         displayProdName.setCellValueFactory(new PropertyValueFactory("productName"));
-        displayType.setCellValueFactory(new PropertyValueFactory("Type"));
-
+        displayType.setCellValueFactory(new PropertyValueFactory("type"));
         productsTable.setItems(data);
-        productsTable.getColumns().addAll(displayID, displayManufacturer, displayProdName, displayType);
-
+        populateList();
     }
 
-    public static ObservableList<DisplayTable> populateList() {
+    public static void populateList() {
 
-        ArrayList<String> DBdataRow = new ArrayList<>();
         DBConnection db = new DBConnection();
         Statement stmt = db.stmt();
 
         try {
             String select = "SELECT * FROM PRODUCTION";
             ResultSet rs2 = stmt.executeQuery(select);
-
+            int tempId;
+            String tempManufact;
+            String tempProdname;
+            String tempType;
             while(rs2.next()) {
-                DBdataRow.add(Integer.toString(rs2.getInt("id")));
-                DBdataRow.add(rs2.getString("Manufacturer"));
-                DBdataRow.add(rs2.getString("name"));
-                DBdataRow.add(rs2.getString("type"));
-
+                tempId = rs2.getInt("id");
+                tempManufact = rs2.getString("manufacturer");
+                tempProdname = rs2.getString("prodname");
+                tempType = rs2.getString("type");
+                DisplayTable dt = new DisplayTable(tempId,tempManufact,tempProdname,tempType);
+                data.add(dt);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(DBdataRow);
-        /*for(int i = 0; i < DBdataRow.size(); i++) {
-            return FXCollections.observableArrayList(
-                    new DisplayTable(Integer.parseInt(DBdataRow.get(i)), DBdataRow.get(i+1), DBdataRow.get(i+2), DBdataRow.get(i+3)));
-        }*/
-        return FXCollections.observableArrayList(
-                new DisplayTable(DBdataRow));
+        //return FXCollections.observableArrayList(new DisplayTable(DBdataRow));
     }
 
     /**
