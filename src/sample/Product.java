@@ -13,8 +13,10 @@ public abstract class Product implements Item {
      * @brief constructor that sets name equal to what comes in
      * @param name
      */
-    public Product(String name) {
+    public Product(String name, String manufacturer, String type) {
         this.name = name;
+        this.manufacturer = manufacturer;
+        this.type = type;
     }
 
     /**
@@ -24,7 +26,7 @@ public abstract class Product implements Item {
      * @param type
      * @return
      */
-    public String returnToString(String name, String manufacturer, String type) {
+    public String toString(String name, String manufacturer, String type) {
 
         return ("Name: " + name + "\nManufacturer: " + manufacturer + "\nType: " + type);
     }
@@ -50,5 +52,13 @@ public abstract class Product implements Item {
 
     public String getManufacturer() {
         return manufacturer;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

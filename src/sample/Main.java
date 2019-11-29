@@ -1,5 +1,6 @@
 /**
  * @Author Vladimir Hardy
+ * @TODO Clean up unused imports for final submission
  */
 package sample;
 
@@ -8,8 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.sql.*;
 import java.util.Scanner;
 
 public class Main extends Application {
@@ -30,11 +29,15 @@ public class Main extends Application {
 
     /**
      * @param args
-     * @throws SQLException
      * @brief driver class that calls all other classes and launches the GUI
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         launch(args);
+
+        Screen myScreen = new Screen("1980x800",60,20);
+        MoviePlayer mp = new MoviePlayer("1980x900","Windows","Visual");
+        System.out.println(mp);
+        System.out.println(myScreen);
     }
 }
 

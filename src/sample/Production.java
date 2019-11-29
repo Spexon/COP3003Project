@@ -9,9 +9,9 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.sql.*;
 import java.util.Scanner;
-import java.time.LocalDate;
+import java.util.Date;
 
-public class Production implements Item {
+public class Production {
 
     /**
      * @param name
@@ -31,17 +31,30 @@ public class Production implements Item {
 
         DBConnection db = new DBConnection();
         Connection conn;
+        Statement stmt = db.stmt();
         PreparedStatement pstmt;
 
         try {
             conn =  DriverManager.getConnection(DB_URL, USER, PASS);
 
-            String SQL = "INSERT INTO PRODUCTIONRECORD VALUES (?,?,?,?)";
+            String SQL = "INSERT INTO PRODUCTIONRECORD VALUES (?,?,?)";
+            String SQL2 = "SELECT PRODUCTIONNUMBER FROM PRODUCTIONRECORD ORDER BY PRODUCTIONNUMBER DESC LIMIT 1";
+            ResultSet rs = stmt.executeQuery(SQL2);
             pstmt = conn.prepareStatement(SQL);
-            for(int i = 0; i<numItemsToProduce;i++) {
-                pstmt.setString(1, itemsToProduce);
+            int serialCount = 1;
+            while(rs.next()) {
+                serialCount = rs.getInt("productionNumber");
             }
+            String serialNum;
+            Date date = new Date();
+            for(int i = 0; i<numItemsToProduce;i++) {
 
+                serialNum = serialCount + "" + itemsToProduce.substring(0,3);
+                pstmt.setInt(1,serialCount);
+                pstmt.setString(2, serialNum);
+                pstmt.setString(3,date.toString());
+            }
+            pstmt.executeUpdate();
             pstmt.close();
 
 
@@ -109,33 +122,5 @@ public class Production implements Item {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Implemented getters and setters
-     */
-    @Override
-    public int getId() {
-        return 0;
-    }
-
-    @Override
-    public void setName(String name) {
-
-    }
-
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public void setManufacturer(String manufacturer) {
-
-    }
-
-    @Override
-    public String getManufacturer() {
-        return null;
     }
 }

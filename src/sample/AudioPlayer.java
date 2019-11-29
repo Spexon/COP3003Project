@@ -16,8 +16,7 @@ public class AudioPlayer extends Product implements MultiMediaControl {
      * @param audioSpecification (play, stop, previous, next)
      */
     public AudioPlayer(String name, String manufacturer, String audioSpecification) {
-        super(name);
-        getManufacturer();
+        super(name, manufacturer, audioSpecification);
         mediaType = audioSpecification;
     }
 
@@ -39,8 +38,8 @@ public class AudioPlayer extends Product implements MultiMediaControl {
      * @return specified fields get returned as a string
      */
     @Override
-    public String returnToString(String name, String manufacturer, String type) {
-        return super.returnToString(name, manufacturer, type + "\nAudio Specification: " + audioSpecification + "\nMedia Type:" + mediaType);
+    public String toString(String name, String manufacturer, String type) {
+        return super.toString(name, manufacturer, type + "\nAudio Specification: " + audioSpecification + "\nMedia Type:" + mediaType);
     }
 
     /**
