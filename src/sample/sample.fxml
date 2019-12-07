@@ -26,14 +26,14 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <TabPane prefHeight="318.0" prefWidth="350.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="403.0" prefWidth="423.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Add New Item">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="304.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="171.0" prefWidth="531.0">
 
                      <children>
-                        <ComboBox fx:id="items" layoutX="163.0" layoutY="44.0" onMouseClicked="#handleComboBox" prefWidth="150.0" promptText="Type">
+                        <ComboBox fx:id="items" layoutX="154.0" layoutY="45.0" onMouseClicked="#handleComboBox" prefWidth="150.0" promptText="Type">
                                 <items>
                                     <!-- FXML code used from Oracle Thread https://community.oracle.com/thread/2486012 -->
                                     <FXCollections fx:factory="observableArrayList">
@@ -44,30 +44,30 @@
                                     </FXCollections>
                                 </items>
                         </ComboBox>
-                        <Button fx:id="btn" layoutX="145.0" layoutY="228.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="71.0" text="Submit" />
-                        <TextField fx:id="manufact" layoutX="163.0" layoutY="101.0" />
-                        <Label layoutX="11.0" layoutY="100.0" text="Manufacturer" textAlignment="CENTER">
+                        <Button fx:id="btn" layoutX="176.0" layoutY="291.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="71.0" text="Submit" />
+                        <TextField fx:id="manufact" layoutX="155.0" layoutY="130.0" />
+                        <Label layoutX="15.0" layoutY="131.0" text="Manufacturer" textAlignment="CENTER">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="18.0" />
                            </font>
                         </Label>
-                        <Separator layoutX="131.0" layoutY="25.0" orientation="VERTICAL" prefHeight="179.0" prefWidth="5.0" />
-                        <Label layoutX="22.0" layoutY="44.0" text="Item Type">
+                        <Separator layoutX="131.0" layoutY="25.0" orientation="VERTICAL" prefHeight="247.0" prefWidth="6.0" />
+                        <Label layoutX="15.0" layoutY="46.0" text="Item Type">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="8.0" layoutY="161.0" text="Product Name">
+                        <Label layoutX="8.0" layoutY="213.0" prefHeight="35.0" prefWidth="121.0" text="Product Name">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="18.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="prod" layoutX="163.0" layoutY="161.0" />
-                        <Separator layoutX="-3.0" layoutY="84.0" prefHeight="3.0" prefWidth="358.0" />
-                        <Separator layoutX="-7.0" layoutY="141.0" prefHeight="0.0" prefWidth="359.0" />
-                        <Separator layoutX="1.0" layoutY="202.0" prefHeight="1.0" prefWidth="350.0" />
-                        <Separator layoutX="1.0" layoutY="25.0" prefHeight="4.0" prefWidth="350.0" />
-                        <Text fx:id="employeeCode" layoutX="257.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="78.13671875">
+                        <TextField fx:id="prod" layoutX="155.0" layoutY="218.0" />
+                        <Separator layoutX="-2.0" layoutY="99.0" prefHeight="1.0" prefWidth="542.0" />
+                        <Separator layoutX="-2.0" layoutY="187.0" prefHeight="1.0" prefWidth="546.0" />
+                        <Separator layoutX="-1.0" layoutY="269.0" prefHeight="2.0" prefWidth="544.0" />
+                        <Separator layoutX="1.0" layoutY="26.0" prefHeight="3.0" prefWidth="535.0" />
+                        <Text fx:id="employeeCode" layoutX="275.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="133.13671875">
                            <font>
                               <Font size="14.0" />
                            </font></Text>
@@ -78,28 +78,28 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="65.0" layoutY="9.0" prefHeight="47.0" prefWidth="220.0" text="Use the display items tab to view to see which items can be logged." wrapText="true">
+                        <Label layoutX="77.0" layoutY="22.0" prefHeight="58.0" prefWidth="279.0" text="Use the display items tab to view to see which items can be logged." wrapText="true">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="18.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="itemsInDisplay" layoutX="163.0" layoutY="81.0" onMouseClicked="#handleComboBox2" prefWidth="150.0" promptText="Item" />
-                        <Button fx:id="btn1" layoutX="128.0" layoutY="223.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="71.0" text="Submit" />
-                        <TextField fx:id="numItemsToProduce" layoutX="163.0" layoutY="152.0" prefHeight="25.0" prefWidth="54.0" />
-                        <Label layoutX="14.0" layoutY="81.0" text="Select Item">
+                        <ComboBox fx:id="itemsInDisplay" layoutX="172.0" layoutY="134.0" onMouseClicked="#handleComboBox2" prefWidth="150.0" promptText="Item" />
+                        <Button fx:id="btn1" layoutX="176.0" layoutY="305.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="71.0" text="Submit" />
+                        <TextField fx:id="numItemsToProduce" layoutX="176.0" layoutY="224.0" prefHeight="25.0" prefWidth="54.0" />
+                        <Label layoutX="14.0" layoutY="133.0" text="Select Item">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="13.0" layoutY="136.0" prefHeight="57.0" prefWidth="117.0" text="Amount of items produced" wrapText="true">
+                        <Label layoutX="14.0" layoutY="195.0" prefHeight="57.0" prefWidth="128.0" text="Amount of items produced" wrapText="true">
                            <font>
-                              <Font size="16.0" />
+                              <Font size="18.0" />
                            </font>
                         </Label>
-                        <Separator layoutY="60.0" prefHeight="3.0" prefWidth="350.0" />
-                        <Separator layoutY="197.0" prefHeight="1.0" prefWidth="350.0" />
-                        <Separator layoutX="132.0" layoutY="61.0" orientation="VERTICAL" prefHeight="137.0" prefWidth="3.0" />
-                        <Separator layoutY="129.0" prefHeight="2.0" prefWidth="350.0" />
+                        <Separator layoutY="102.0" prefHeight="4.0" prefWidth="423.0" />
+                        <Separator layoutX="1.0" layoutY="276.0" prefHeight="1.0" prefWidth="430.0" />
+                        <Separator layoutX="148.0" layoutY="102.0" orientation="VERTICAL" prefHeight="176.0" prefWidth="5.0" />
+                        <Separator layoutY="186.0" prefHeight="2.0" prefWidth="423.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -107,12 +107,12 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="productsTable" prefHeight="292.0" prefWidth="350.0">
+                        <TableView fx:id="productsTable" prefHeight="376.0" prefWidth="423.0">
                           <columns>
                               <TableColumn fx:id="displayID" prefWidth="44.0" text="ID" />
-                              <TableColumn fx:id="displayManufacturer" prefWidth="114.0" text="Manufacturer" />
-                              <TableColumn fx:id="displayProdName" prefWidth="116.0" text="Product Name" />
-                              <TableColumn fx:id="displayType" prefWidth="75.0" text="Type" />
+                              <TableColumn fx:id="displayManufacturer" prefWidth="120.0" text="Manufacturer" />
+                              <TableColumn fx:id="displayProdName" prefWidth="130.0" text="Product Name" />
+                              <TableColumn fx:id="displayType" prefWidth="128.0" text="Type" />
 
                           </columns>
                         </TableView>

@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 
@@ -24,7 +25,7 @@ public class Production {
      */
     public void produce(String itemsToProduce,int numItemsToProduce) {
 
-        final String DB_URL = "jdbc:h2:C:/Users/Windows/OneDrive - Florida Gulf Coast University/COP 3003/COP3003Project/res/ProductionLog";
+        final String DB_URL = "jdbc:h2:./res/ProductionLog";
         //  Database credentials
         final String USER = "";
         final String PASS = "";
@@ -36,25 +37,36 @@ public class Production {
 
         try {
             conn =  DriverManager.getConnection(DB_URL, USER, PASS);
-
+            String firstThreeLetters = itemsToProduce.substring(0,3);
             String SQL = "INSERT INTO PRODUCTIONRECORD VALUES (?,?,?)";
             String SQL2 = "SELECT PRODUCTIONNUMBER FROM PRODUCTIONRECORD ORDER BY PRODUCTIONNUMBER DESC LIMIT 1";
-            ResultSet rs = stmt.executeQuery(SQL2);
+            //String SQL3 = "SELECT COUNT(serialNumber) FROM PRODUCTIONRECORD WHERE serialNumber LIKE '%Mac'" ;
+            //String SQL3 = "SELECT SERIALNUMBER FROM PRODUCTIONRECORD VALUES " + firstThreeLetters;
+            ResultSet rs = stmt.executeQuery(SQL2); //Should change to pstmt for security reasons
+            //ResultSet rs2 = stmt.executeQuery(SQL3);
             pstmt = conn.prepareStatement(SQL);
             int serialCount = 1;
             while(rs.next()) {
-                serialCount = rs.getInt("productionNumber");
+                serialCount = rs.getInt("productionNumber") + 1;
             }
+            ArrayList<Integer> numOfExistingProducts = new ArrayList<>();
+            /*while(rs2.next()) {
+                int iterator = 0;
+                iterator++;
+                numOfExistingProducts.add(iterator);
+            }*/
             String serialNum;
             Date date = new Date();
             for(int i = 0; i<numItemsToProduce;i++) {
 
-                serialNum = serialCount + "" + itemsToProduce.substring(0,3);
-                pstmt.setInt(1,serialCount);
+                System.out.println(serialCount + "_" + firstThreeLetters + "_" + numOfExistingProducts.get(i));
+                serialNum = serialCount + "_" + firstThreeLetters + "_" + numOfExistingProducts.get(i);
+                pstmt.setInt(1, serialCount);
                 pstmt.setString(2, serialNum);
-                pstmt.setString(3,date.toString());
+                pstmt.setString(3, date.toString());
+                pstmt.executeUpdate();
+                serialCount++;
             }
-            pstmt.executeUpdate();
             pstmt.close();
 
 

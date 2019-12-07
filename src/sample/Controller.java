@@ -38,6 +38,7 @@ public class Controller implements Initializable {
     private String type;
     private String itemsToProduce;
     private static ObservableList<DisplayTable> data;
+    private static ObservableList<String> comboString;
 
     enum ItemType {
         AU,  //Audio
@@ -56,9 +57,7 @@ public class Controller implements Initializable {
         ItemType visual = ItemType.VI;
         ItemType audioMobile = ItemType.AM;
         ItemType visualMobile = ItemType.VM;
-        items.valueProperty().addListener((obs, oldVal, newVal) -> {
-            type = newVal.toString();
-        });
+        items.valueProperty().addListener((obs, oldVal, newVal) -> type = newVal.toString());
         /*switch(type) {
             case "Audio":
                 type = audio.toString();
@@ -74,7 +73,6 @@ public class Controller implements Initializable {
                 break;
             default:
                 System.out.println("Something went wrong in ItemType Combobox");
-
         }*/
     }
 
@@ -83,34 +81,73 @@ public class Controller implements Initializable {
      */
     @FXML
     private void handleComboBox2() {
-        System.out.println(data);
-        itemsInDisplay.getItems().addAll(data);
-        //itemsInDisplay.setItems(data);
+        //System.out.println(comboString);
+        itemsInDisplay.getItems().addAll(comboString);
         itemsInDisplay.valueProperty().addListener((obs, oldVal, newVal) -> {
             itemsToProduce = newVal.toString();
         });
     }
 
     /**
-     * @param event
      * @brief calls createNewItem and passes the values the user selected from the GUI
+     * @param event
      */
     private void handleButtonAction(ActionEvent event) {
         // Button was clicked, do something...
-        if (type.equals("")) {
-            return;
+        try {
+            if (type.equals("")) {
+                return;
+            }
+            Production pd = new Production();
+            btn.setText("Submitted");
+            pd.createNewItem(prod.getText(), manufact.getText(), type);
         }
-        Production pd = new Production();
-        pd.createNewItem(prod.getText(), manufact.getText(), type);
-        btn.setText("Submitted");
+        catch (NullPointerException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided",ButtonType.OK);
+            alert.show();
+        }
+        catch(Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Something went wrong \nError Code: " + ex,ButtonType.OK);
+            alert.show();
+        }
 
     }
 
+    /**
+     * @brief Calls produce in class production once all fields are entered for producing a new item
+     * @param event
+     */
     private void handleButtonAction2(ActionEvent event) {
         // Button was clicked, do something...
         Production pd = new Production();
-        pd.produce(itemsToProduce, Integer.parseInt(numItemsToProduce.getText()));
-        btn.setText("Submitted");
+        try {
+            if(numItemsToProduce.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided", ButtonType.OK);
+                alert.show();
+                return;
+            }
+            else if(Integer.parseInt(numItemsToProduce.getText()) < 1) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,"Please enter a positive integer number",ButtonType.OK);
+                alert.show();
+                return;
+            }
+            btn.setText("Submitted");
+            pd.produce(itemsToProduce, Integer.parseInt(numItemsToProduce.getText()));
+        }
+        catch(NumberFormatException ex) {
+            if(!(Math.floor(Double.parseDouble(numItemsToProduce.getText())) == Double.parseDouble(numItemsToProduce.getText()))) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter a positive whole number", ButtonType.OK);
+                alert.show();
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided", ButtonType.OK);
+                alert.show();
+            }
+        }
+        catch(Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Something went wrong \nError Code: " + ex,ButtonType.OK);
+            alert.show();
+        }
     }
 
     /**
@@ -146,13 +183,15 @@ public class Controller implements Initializable {
             String tempManufact;
             String tempProdname;
             String tempType;
+            comboString = FXCollections.observableArrayList();
             while (rs2.next()) {
                 tempId = rs2.getInt("id");
                 tempManufact = rs2.getString("manufacturer");
-                tempProdname = rs2.getString("prodname");
+                tempProdname = rs2.getString("prodName");
                 tempType = rs2.getString("type");
                 DisplayTable dt = new DisplayTable(tempId, tempManufact, tempProdname, tempType);
                 data.add(dt);
+                comboString.add(rs2.getString("prodName"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

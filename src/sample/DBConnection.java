@@ -10,8 +10,8 @@ public class DBConnection {
 
     public Statement stmt() {
 
-        final String JDBC_DRIVER = "org.h2.Driver"; //Only works on local computer
-        final String DB_URL = "jdbc:h2:C:/Users/Windows/OneDrive - Florida Gulf Coast University/COP 3003/COP3003Project/res/ProductionLog";
+        final String JDBC_DRIVER = "org.h2.Driver";
+        final String DB_URL = "jdbc:h2:./res/ProductionLog";
         //  Database credentials
         final String USER = "";
         final String PASS = "";
