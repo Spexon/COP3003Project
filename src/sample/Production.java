@@ -34,26 +34,40 @@ public class Production {
         Connection conn;
         Statement stmt = db.stmt();
         PreparedStatement pstmt;
+        PreparedStatement pstmt2;
 
         try {
             conn =  DriverManager.getConnection(DB_URL, USER, PASS);
             String firstThreeLetters = itemsToProduce.substring(0,3);
             String SQL = "INSERT INTO PRODUCTIONRECORD VALUES (?,?,?)";
             String SQL2 = "SELECT PRODUCTIONNUMBER FROM PRODUCTIONRECORD ORDER BY PRODUCTIONNUMBER DESC LIMIT 1";
-            //String SQL3 = "SELECT COUNT(serialNumber) FROM PRODUCTIONRECORD WHERE serialNumber LIKE '%Mac'" ;
-            //String SQL3 = "SELECT SERIALNUMBER FROM PRODUCTIONRECORD VALUES " + firstThreeLetters;
+            String SQL3 = "SELECT COUNT(serialNumber) FROM PRODUCTIONRECORD WHERE serialNumber LIKE ?";
+            //String SQL3 = "SELECT COUNT(serialNumber) FROM PRODUCTIONRECORD WHERE serialNumber LIKE " + firstThreeLetters;
+
             ResultSet rs = stmt.executeQuery(SQL2); //Should change to pstmt for security reasons
-            //ResultSet rs2 = stmt.executeQuery(SQL3);
             pstmt = conn.prepareStatement(SQL);
             int serialCount = 1;
             while(rs.next()) {
                 serialCount = rs.getInt("productionNumber") + 1;
             }
+            pstmt2 = conn.prepareStatement(SQL3);
+            pstmt2.setString(1,"%"+firstThreeLetters+"%");
+            ResultSet rs2 = pstmt2.executeQuery();
             ArrayList<Integer> numOfExistingProducts = new ArrayList<>();
-            /*while(rs2.next()) {
-                int iterator = 0;
-                iterator++;
-                numOfExistingProducts.add(iterator);
+
+            while(rs2.next()) {
+                System.out.println(rs2.getInt(1));
+                for(int i = 1; i <= numItemsToProduce; i++) {
+                //for (int i = rs2.getInt(1); i <= numItemsToProduce+rs2.getInt(1); i++) {
+                    numOfExistingProducts.add(rs2.getInt(1)+i);
+                }
+            }
+
+            /*ResultSet rs2 = stmt.executeQuery(SQL3);
+            while(rs2.next()) {
+                for(int i = 1; i<=numItemsToProduce;i++) {
+                    numOfExistingProducts.add(rs2.getInt(1)+i);
+                }
             }*/
             String serialNum;
             Date date = new Date();

@@ -11,16 +11,22 @@ public class DisplayTable {
     private String type;
     private int id;
 
-
+    /**
+     * @param id       ID number from the database
+     * @param manufact Manufacturer from the database
+     * @param name     Product name from the database
+     * @param type     Product type from the database
+     * @brief gathers information sent from the controller to be returned later
+     */
     public DisplayTable(int id, String manufact, String name, String type) {
 
-            this.productName = name;
-            this.manufact = manufact;
-            this.type = type;
-            this.id = id;
-        }
+        this.productName = name;
+        this.manufact = manufact;
+        this.type = type;
+        this.id = id;
+    }
 
-        public String getProductName() {
+    public String getProductName() {
         return productName;
     }
 

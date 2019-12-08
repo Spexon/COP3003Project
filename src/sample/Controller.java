@@ -95,11 +95,14 @@ public class Controller implements Initializable {
     private void handleButtonAction(ActionEvent event) {
         // Button was clicked, do something...
         try {
-            if (type.equals("")) {
+            if (type.equals("") || prod.getText().equals("") || manufact.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided",ButtonType.OK);
+                alert.show();
                 return;
             }
             Production pd = new Production();
             btn.setText("Submitted");
+
             pd.createNewItem(prod.getText(), manufact.getText(), type);
         }
         catch (NullPointerException ex) {
@@ -171,6 +174,9 @@ public class Controller implements Initializable {
         populateList();
     }
 
+    /**
+     * @brief fetches data from database and sends it to Display Table, which then gets formatted into an observable list called data
+     */
     private static void populateList() {
 
         DBConnection db = new DBConnection();
