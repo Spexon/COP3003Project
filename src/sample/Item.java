@@ -1,3 +1,6 @@
+/**
+ * @Author Vladimir Hardy
+ */
 package sample;
 
 public interface Item {

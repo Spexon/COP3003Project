@@ -1,6 +1,8 @@
 /**
  * @Author Vladimir Hardy
- * @TODO Clean up unused imports for final submission, change statements into prepared statements
+ * @brief This project gives the user the ability to create and log products to a database. A view of all the products
+ * created is displayed on the third tab on the GUI.
+ * @TODO change statements into prepared statements
  * @BUGS Clicking products in the item tab before submitting causes a null pointer exception
  */
 package sample;
@@ -15,9 +17,6 @@ public class Main extends Application {
 
 
     @Override
-    /**
-     * @brief titles a 350 by 318 box with Production Line, and adds the attributes from sample.fxml
-     */
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Production Line");

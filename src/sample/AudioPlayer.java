@@ -1,6 +1,5 @@
 /**
  * @Author Vladimir Hardy
- * @TODO Create a driver class for AudioPlayer
  */
 package sample;
 

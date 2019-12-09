@@ -1,3 +1,6 @@
+/**
+ * @Author Vladimir Hardy
+ */
 package sample;
 
 import javafx.scene.control.Alert;

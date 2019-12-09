@@ -3,7 +3,6 @@
  */
 package sample;
 
-
 public class DisplayTable {
 
     private String serialNumber;
@@ -16,7 +15,7 @@ public class DisplayTable {
      * @param date         Product date from the database
      * @brief gathers information sent from the controller to be returned later
      */
-    public DisplayTable(int id, String serialNumber, String date) {
+    DisplayTable(int id, String serialNumber, String date) {
 
         this.id = id;
         this.serialNumber = serialNumber;

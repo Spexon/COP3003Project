@@ -1,12 +1,10 @@
 /**
  * @Author Vladimir Hardy
- * @TODO Figure out how to return connection
  */
 package sample;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-
 import java.sql.*;
 
 public class DBConnection {

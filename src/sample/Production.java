@@ -1,21 +1,16 @@
 /**
  * @Author Vladimir Hardy
- * @TODO Display available products to record
  */
 package sample;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Date;
 
 public class Production {
-
 
     /**
      * @brief Allows the user to select an item to produce however many times they desire (will change to GUI later)
@@ -62,7 +57,7 @@ public class Production {
             Date date = new Date();
             for (int i = 0; i < numItemsToProduce; i++) {
 
-                System.out.println(serialCount + "_" + firstThreeLetters + "_" + padLeft(numOfExistingProducts.get(i).toString()));
+                //System.out.println(serialCount + "_" + firstThreeLetters + "_" + padLeft(numOfExistingProducts.get(i).toString()));
                 serialNum = serialCount + "_" + firstThreeLetters + "_" + padLeft(numOfExistingProducts.get(i).toString());
                 pstmt.setInt(1, serialCount);
                 pstmt.setString(2, serialNum);

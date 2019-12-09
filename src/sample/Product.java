@@ -10,7 +10,7 @@ public abstract class Product implements Item {
     private String name;
 
     /**
-     * @param name
+     * @param name the product name
      * @brief constructor that sets name equal to what comes in
      */
     public Product(String name, String manufacturer, String type) {
@@ -20,14 +20,12 @@ public abstract class Product implements Item {
     }
 
     /**
-     * @param name
-     * @param manufacturer
-     * @param type
-     * @return
-     * @brief returns data passed to it in string format concatenated together
+     * @param name         the product name
+     * @param manufacturer manufacturer name
+     * @param type         product item type
+     * @return returns data passed to it in string format concatenated together
      */
     public String toString(String name, String manufacturer, String type) {
-
         return ("Name: " + name + "\nManufacturer: " + manufacturer + "\nType: " + type);
     }
 
