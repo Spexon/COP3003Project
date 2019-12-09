@@ -1,6 +1,7 @@
 /**
  * @Author Vladimir Hardy
- * @TODO Clean up unused imports for final submission
+ * @TODO Clean up unused imports for final submission, change statements into prepared statements
+ * @BUGS Clicking products in the item tab before submitting causes a null pointer exception
  */
 package sample;
 
@@ -11,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
 
 
     @Override
@@ -33,8 +33,8 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
 
-        Screen myScreen = new Screen("1980x800",60,20);
-        MoviePlayer mp = new MoviePlayer("1980x900","Windows","Visual");
+        Screen myScreen = new Screen("1980x800", 60, 20);
+        MoviePlayer mp = new MoviePlayer("1980x900", "Windows", "Visual");
         System.out.println(mp);
         System.out.println(myScreen);
     }

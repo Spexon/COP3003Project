@@ -4,6 +4,9 @@
  */
 package sample;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
 import java.sql.*;
 
 public class DBConnection {
@@ -30,9 +33,12 @@ public class DBConnection {
 
             //Return stmt for use elsewhere
             return stmt;
-        }
-        catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error, class not found: " + e, ButtonType.OK);
+            alert.show();
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error: " + e, ButtonType.OK);
+            alert.show();
         }
         return null;
     }

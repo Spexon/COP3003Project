@@ -23,10 +23,10 @@ public class Controller implements Initializable {
 
     public TableView productsTable;
     public TableColumn<DisplayTable, Integer> displayID;
-    public TableColumn<DisplayTable, String> displayManufacturer;
-    public TableColumn<DisplayTable, String> displayProdName;
-    public TableColumn<DisplayTable, String> displayType;
+    public TableColumn<DisplayTable, String> displaySerialNum;
+    public TableColumn<DisplayTable, String> displayDate;
     public Text employeeCode;
+    public ComboBox sortItemsBy;
     @FXML
     private ComboBox<?> items;
     public ComboBox itemsInDisplay;
@@ -36,9 +36,16 @@ public class Controller implements Initializable {
     public Button btn;
     public Button btn1;
     private String type;
-    private String itemsToProduce;
+    private String itemsToProduce = "PENDING INPUT";
+    private String sortCode = "Product Name";
+    private int showComboString = 1;
     private static ObservableList<DisplayTable> data;
-    private static ObservableList<String> comboString;
+    private static ObservableList<String> comboStringProdName;
+    private static ObservableList<String> comboStringManufact;
+    private static ObservableList<String> comboStringType;
+
+    public Controller() {
+    }
 
     enum ItemType {
         AU,  //Audio
@@ -51,105 +58,133 @@ public class Controller implements Initializable {
      * @brief gets the value the user chooses and saves the value
      */
     @FXML
-    private void handleComboBox() {
+    private void handleTypeCombobox() {
 
         ItemType audio = ItemType.AU;
         ItemType visual = ItemType.VI;
         ItemType audioMobile = ItemType.AM;
         ItemType visualMobile = ItemType.VM;
         items.valueProperty().addListener((obs, oldVal, newVal) -> type = newVal.toString());
-        /*switch(type) {
-            case "Audio":
-                type = audio.toString();
-                break;
-            case "Visual":
-                type = visual.toString();
-                break;
-            case "Audio Mobile":
-                type = audioMobile.toString();
-                break;
-            case "Visual Mobile":
-                type = visualMobile.toString();
-                break;
-            default:
-                System.out.println("Something went wrong in ItemType Combobox");
-        }*/
     }
 
     /**
      * @brief gets the value that the user logs and saves to itemsToProduce
      */
     @FXML
-    private void handleComboBox2() {
-        //System.out.println(comboString);
-        itemsInDisplay.getItems().addAll(comboString);
+    private void handleItemCombobox() {
+        itemsInDisplay.getItems().removeAll(comboStringProdName);
+        itemsInDisplay.getItems().removeAll(comboStringManufact);
+        itemsInDisplay.getItems().removeAll(comboStringType);
+        switch (showComboString) {
+            case 1:
+                itemsInDisplay.getItems().addAll(comboStringProdName);
+                break;
+            case 2:
+                itemsInDisplay.getItems().addAll(comboStringManufact);
+                break;
+            case 3:
+                itemsInDisplay.getItems().addAll(comboStringType);
+                break;
+            default:
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Something went wrong", ButtonType.OK);
+                alert.show();
+        }
         itemsInDisplay.valueProperty().addListener((obs, oldVal, newVal) -> {
             itemsToProduce = newVal.toString();
         });
     }
 
     /**
-     * @brief calls createNewItem and passes the values the user selected from the GUI
+     * @brief sorts the item combobox based on what sort category is chosen
+     */
+    @FXML
+    private void handleSortCombobox() {
+        sortItemsBy.valueProperty().addListener((obs, oldVal, newVal) -> {
+            sortCode = newVal.toString();
+        });
+    }
+
+    /**
      * @param event
+     * @brief calls createNewItem and passes the values the user selected from the GUI
      */
     private void handleButtonAction(ActionEvent event) {
         // Button was clicked, do something...
         try {
             if (type.equals("") || prod.getText().equals("") || manufact.getText().equals("")) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided",ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided", ButtonType.OK);
                 alert.show();
                 return;
             }
             Production pd = new Production();
             btn.setText("Submitted");
-
             pd.createNewItem(prod.getText(), manufact.getText(), type);
-        }
-        catch (NullPointerException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided",ButtonType.OK);
+            productsTable.setItems(data);
+            populateList();
+        } catch (NullPointerException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided", ButtonType.OK);
             alert.show();
-        }
-        catch(Exception ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Something went wrong \nError Code: " + ex,ButtonType.OK);
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Something went wrong \nError Code: " + ex, ButtonType.OK);
             alert.show();
         }
 
     }
 
     /**
-     * @brief Calls produce in class production once all fields are entered for producing a new item
      * @param event
+     * @brief Calls produce in class production once all fields are entered for producing a new item
      */
     private void handleButtonAction2(ActionEvent event) {
         // Button was clicked, do something...
         Production pd = new Production();
         try {
-            if(numItemsToProduce.getText().equals("")) {
+            if (numItemsToProduce.getText().equals("")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided", ButtonType.OK);
                 alert.show();
                 return;
-            }
-            else if(Integer.parseInt(numItemsToProduce.getText()) < 1) {
-                Alert alert = new Alert(Alert.AlertType.ERROR,"Please enter a positive integer number",ButtonType.OK);
+            } else if (Integer.parseInt(numItemsToProduce.getText()) < 1) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter a positive integer number", ButtonType.OK);
                 alert.show();
                 return;
             }
             btn.setText("Submitted");
             pd.produce(itemsToProduce, Integer.parseInt(numItemsToProduce.getText()));
-        }
-        catch(NumberFormatException ex) {
-            if(!(Math.floor(Double.parseDouble(numItemsToProduce.getText())) == Double.parseDouble(numItemsToProduce.getText()))) {
+            productsTable.setItems(data);
+            populateList();
+        } catch (NumberFormatException ex) {
+            if (!(Math.floor(Double.parseDouble(numItemsToProduce.getText())) == Double.parseDouble(numItemsToProduce.getText()))) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter a positive whole number", ButtonType.OK);
                 alert.show();
-            }
-            else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter information in the fields provided", ButtonType.OK);
                 alert.show();
             }
-        }
-        catch(Exception ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Something went wrong \nError Code: " + ex,ButtonType.OK);
+        } catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Something went wrong \nError Code: " + ex, ButtonType.OK);
             alert.show();
+        }
+    }
+
+    /**
+     * @brief applies the information to sort the item combobox
+     */
+    @FXML
+    private void handleApplySortButton() {
+        System.out.println(sortCode);
+        switch (sortCode) {
+            case "Product Name":
+                showComboString = 1;
+                break;
+            case "Manufacturer":
+                showComboString = 2;
+                break;
+            case "Type":
+                showComboString = 3;
+                break;
+            default:
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Something went wrong \nError Code: ", ButtonType.OK);
+                alert.show();
         }
     }
 
@@ -165,9 +200,8 @@ public class Controller implements Initializable {
         btn1.setOnAction(this::handleButtonAction2);
         data = FXCollections.observableArrayList();
         displayID.setCellValueFactory(new PropertyValueFactory<>("id")); //THIS HAS TO MATCH DISPLAYTABLE FIELD VARIABLES!
-        displayManufacturer.setCellValueFactory(new PropertyValueFactory<>("manufact"));
-        displayProdName.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        displayType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        displaySerialNum.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        displayDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         EmployeeInfo ei = new EmployeeInfo("Vladimir", "Hardy");
         employeeCode.setText("Employee: " + ei.getCode());
         productsTable.setItems(data);
@@ -183,21 +217,28 @@ public class Controller implements Initializable {
         Statement stmt = db.stmt();
 
         try {
-            String select = "SELECT * FROM PRODUCTION";
-            ResultSet rs2 = stmt.executeQuery(select);
+            String select = "SELECT  * FROM PRODUCTION";
+            ResultSet rs = stmt.executeQuery(select);
             int tempId;
-            String tempManufact;
-            String tempProdname;
-            String tempType;
-            comboString = FXCollections.observableArrayList();
+            String tempSerialNum;
+            String tempDate;
+            comboStringProdName = FXCollections.observableArrayList();
+            comboStringManufact = FXCollections.observableArrayList();
+            comboStringType = FXCollections.observableArrayList();
+            while (rs.next()) {
+                comboStringProdName.add(rs.getString("prodName"));
+                comboStringManufact.add(rs.getString("manufacturer"));
+                comboStringType.add(rs.getString("type"));
+            }
+            String select2 = "SELECT * FROM PRODUCTIONRECORD";
+            ResultSet rs2 = stmt.executeQuery(select2);
+            data.clear();
             while (rs2.next()) {
-                tempId = rs2.getInt("id");
-                tempManufact = rs2.getString("manufacturer");
-                tempProdname = rs2.getString("prodName");
-                tempType = rs2.getString("type");
-                DisplayTable dt = new DisplayTable(tempId, tempManufact, tempProdname, tempType);
+                tempId = rs2.getInt("productionNumber");
+                tempSerialNum = rs2.getString("serialNumber");
+                tempDate = rs2.getString("date");
+                DisplayTable dt = new DisplayTable(tempId, tempSerialNum, tempDate);
                 data.add(dt);
-                comboString.add(rs2.getString("prodName"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

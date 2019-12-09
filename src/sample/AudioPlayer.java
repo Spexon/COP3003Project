@@ -10,10 +10,10 @@ public class AudioPlayer extends Product implements MultiMediaControl {
     private String mediaType;
 
     /**
-     * @brief child constructor of Product thats suppose to overload the specified parameters
-     * @param name Name of the product
-     * @param manufacturer Manufacturer's name
+     * @param name               Name of the product
+     * @param manufacturer       Manufacturer's name
      * @param audioSpecification (play, stop, previous, next)
+     * @brief child constructor of Product thats suppose to overload the specified parameters
      */
     public AudioPlayer(String name, String manufacturer, String audioSpecification) {
         super(name, manufacturer, audioSpecification);
@@ -31,11 +31,11 @@ public class AudioPlayer extends Product implements MultiMediaControl {
     }
 
     /**
-     * @brief suppose to overwrite the parent constructor with extra fields of data
-     * @param name Name of the product
+     * @param name         Name of the product
      * @param manufacturer Manufacturer's name
-     * @param type Product type (Audio, Visual, Audio Mobile, Visual Mobile)
+     * @param type         Product type (Audio, Visual, Audio Mobile, Visual Mobile)
      * @return specified fields get returned as a string
+     * @brief suppose to overwrite the parent constructor with extra fields of data
      */
     @Override
     public String toString(String name, String manufacturer, String type) {
