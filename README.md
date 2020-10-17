@@ -1,6 +1,6 @@
-# COP3003Project
+# Production Line Project
 
-This project will use information learned from one of my previous projects (Procedural Project) and add new features to it in java.
+This project will use information learned from one of my previous projects (Procedural Project) and add new features to it in java, created during Object Oriented Programming (COP 3003).
 It uses an H2 database to store information such as production log and employee accounts instead of a cpp file. Instead of the user interface being console driven, this project is created with an interface oriented around GUI using JavaFX. 
 
 ## Demonstration
