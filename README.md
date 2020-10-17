@@ -1,7 +1,6 @@
 # Production Line Project
 
-This project will use information learned from one of my previous projects (Procedural Project) and add new features to it in java, created during Object Oriented Programming (COP 3003).
-It uses an H2 database to store information such as production log and employee accounts instead of a cpp file. Instead of the user interface being console driven, this project is created with an interface oriented around GUI using JavaFX. 
+This project will use information learned from one of my previous projects (Procedural Project) and add new features to it in java, created during Object Oriented Programming (COP 3003). This project applies all my knowledge of OOP design principles, integrating polymorphism, inheritance, and encapsulation. It uses an H2 database to store information such as production log and employee accounts instead of a cpp file. Instead of the user interface being console driven, this project is created with a graphical user interface using JavaFX. 
 
 ## Demonstration
 ![Create Item](https://gyazo.com/1f6405e7e8766fcad1681cf464508a2c.png)
